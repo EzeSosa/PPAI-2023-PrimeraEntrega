@@ -89,4 +89,8 @@ public class Llamada {
     public List<RespuestaDeCliente> getRespuestasDeEncuesta() {
         return this.respuestasDeEncuesta;
     }
+
+    public List<CambioEstado> getCambioEstado() {
+        return cambioEstado;
+    }
 }

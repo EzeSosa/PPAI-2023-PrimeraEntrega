@@ -9,7 +9,8 @@ public class CambioEstado {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime fechaHoraInicio, fechaHoraFin;
+    private LocalDateTime fechaHoraInicio;
+    private LocalDateTime fechaHoraFin;
 
     // atributos por referencia de cambioestado
     @ManyToOne

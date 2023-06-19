@@ -33,10 +33,10 @@ public class Main {
         configuration.addAnnotatedClass(Estado.class); // BIEN MAPEADA
         configuration.addAnnotatedClass(Llamada.class); // BIEN MAPEADA
         configuration.addAnnotatedClass(Encuesta.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(CambioEstado.class);
+        configuration.addAnnotatedClass(CambioEstado.class); // BIEN MAPEADA
         configuration.addAnnotatedClass(Pregunta.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(RespuestaPosible.class);
-        configuration.addAnnotatedClass(RespuestaDeCliente.class);
+        configuration.addAnnotatedClass(RespuestaPosible.class); // BIEN MAPEADA
+        configuration.addAnnotatedClass(RespuestaDeCliente.class); // BIEN MAPEADA
 
         // Creación de la Sesión
 
@@ -48,8 +48,8 @@ public class Main {
 
         for (Llamada call: llamadas) {
             System.out.println("Duración:" + call.getDuracion() + "Nombre Cliente: " + call.getNombreClienteLlamada());
-            for (RespuestaDeCliente resp: call.getRespuestasDeEncuesta()){
-                System.out.println(resp.getDescripcionRta());
+            for (CambioEstado cambio: call.getCambioEstado()){
+                System.out.println(cambio.getNombreEstado());
             }
         }
 
