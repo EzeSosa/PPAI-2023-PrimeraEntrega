@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="cu44.Interfaz.PantallaConsultarEncuesta">
+  <grid id="27dc6" binding="JPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="25" width="860" height="548"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <grid id="77b68" layout-manager="GridLayoutManager" row-count="6" column-count="6" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="10" left="10" bottom="10" right="10"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="9b442" class="javax.swing.JLabel" binding="labelFechaDesde">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Fecha Desde:"/>
+            </properties>
+          </component>
+          <component id="7f397" class="javax.swing.JLabel" binding="labelFechaHasta">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Fecha Hasta: "/>
+            </properties>
+          </component>
+          <component id="ca9cc" class="javax.swing.JLabel" binding="labelNombreCliente">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Nombre del Cliente:"/>
+            </properties>
+          </component>
+          <component id="6e14a" class="javax.swing.JLabel" binding="labelEstadoActual">
+            <constraints>
+              <grid row="2" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Estado Actual:"/>
+            </properties>
+          </component>
+          <component id="ef394" class="javax.swing.JLabel" binding="labelDuracionLlamada">
+            <constraints>
+              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Duración de la Llamada:"/>
+            </properties>
+          </component>
+          <component id="6d8b3" class="javax.swing.JLabel" binding="labelDescripcionEncuesta">
+            <constraints>
+              <grid row="3" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="1" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Descripción de la Encuesta: "/>
+            </properties>
+          </component>
+          <component id="99c43" class="javax.swing.JTable" binding="tablaLlamadas">
+            <constraints>
+              <grid row="1" column="0" row-span="1" col-span="6" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties>
+              <autoCreateRowSorter value="true"/>
+              <intercellSpacing width="2" height="2"/>
+            </properties>
+          </component>
+          <component id="4961c" class="org.jdesktop.swingx.JXDatePicker" binding="dateFechaHasta">
+            <constraints>
+              <grid row="0" column="4" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="69e34" class="org.jdesktop.swingx.JXDatePicker" binding="dateFechaDesde">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="332ed" class="javax.swing.JTable" binding="tablaPreguntasRespuestas">
+            <constraints>
+              <grid row="4" column="0" row-span="1" col-span="6" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="da068" class="javax.swing.JButton" binding="btnGenerarCSV">
+            <constraints>
+              <grid row="5" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <text value="Generar CSV"/>
+            </properties>
+          </component>
+          <component id="9496b" class="javax.swing.JButton" binding="btnFinCU">
+            <constraints>
+              <grid row="5" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <hideActionText value="false"/>
+              <text value="Finalizar CU"/>
+            </properties>
+          </component>
+          <component id="19f8" class="javax.swing.JTextField" binding="txtEstadoActual">
+            <constraints>
+              <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="e99aa" class="javax.swing.JTextField" binding="txtDescripcionEncuesta">
+            <constraints>
+              <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="99493" class="javax.swing.JTextField" binding="txtNombreCliente">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+          <component id="aab56" class="javax.swing.JTextField" binding="txtDuracionLlamada">
+            <constraints>
+              <grid row="3" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+            </constraints>
+            <properties/>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>
