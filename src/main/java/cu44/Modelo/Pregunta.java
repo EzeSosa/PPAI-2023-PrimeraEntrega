@@ -12,7 +12,7 @@ public class Pregunta {
     private String pregunta;
 
     // Atributos por referencia de Pregunta
-    @ManyToMany
+    @OneToMany
     private List<RespuestaPosible> respuesta;
 
     // Constructor con parámetros

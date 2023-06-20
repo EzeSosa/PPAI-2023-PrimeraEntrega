@@ -16,7 +16,6 @@ public class GestorConsultarEncuesta {
     private Date fechaFinPeriodoAConsultar;
     private String nombreCliente, nombreEstadoActual, descripcionEncuesta, opcionGeneracionInformeSeleccionada;
     private int duracionLlamada;
-    private boolean encuestaEnviada;
     private List<String> descripcionRespuestasCliente, descripcionPreguntasEncuesta, opcionesGeneracionInforme;
 
     // Atributos por referencia del gestor

@@ -50,13 +50,13 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         gestorConsultarEncuesta = new GestorConsultarEncuesta(this, sesion); // Se asigna el gestor
 
         // Configuración de la Tabla de Llamadas
-        jScrollLlamadas.setPreferredSize(new Dimension(400, 120));
+        jScrollLlamadas.setPreferredSize(new Dimension(400, 160));
         DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
         dtm.addColumn("ID Llamada");
         dtm.addColumn("Descripción del Operador");
 
         // Configuración de la Tabla de Preguntas y Respuestas
-        jScrollPreguntas.setPreferredSize(new Dimension(400, 200));
+        jScrollPreguntas.setPreferredSize(new Dimension(400, 160));
         DefaultTableModel dtm2 = (DefaultTableModel) tablaPreguntasRespuestas.getModel();
         dtm2.addColumn("Pregunta");
         dtm2.addColumn("Respuesta de Cliente");
