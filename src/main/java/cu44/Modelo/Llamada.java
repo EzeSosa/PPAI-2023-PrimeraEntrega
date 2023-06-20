@@ -11,7 +11,7 @@ public class Llamada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    // private String descripcionOperador, detalleAccionRequerida;
+    private String descripcionOperador;
     private int duracion;
     private boolean encuestaEnviada;
 
@@ -65,7 +65,7 @@ public class Llamada {
 
     // Obtención de la descripción de las respuestas de cliente de la llamada
     public List<String> getDescripcionRespuestasDeCliente(){
-        List<String> respuestas = new ArrayList<>(); // se obtienen las descripciones de las respuestas seleccionadas
+        List<String> respuestas = new ArrayList<>(); // Se obtienen las descripciones de las respuestas seleccionadas
         for (RespuestaDeCliente respuesta: respuestasDeEncuesta) {
             respuestas.add(respuesta.getDescripcionRta());
         }
@@ -95,5 +95,10 @@ public class Llamada {
     // Getter del ID de la llamada
     public Long getId() {
         return id;
+    }
+
+    // Getter de la descripción del operador
+    public String getDescripcionOperador() {
+        return descripcionOperador;
     }
 }

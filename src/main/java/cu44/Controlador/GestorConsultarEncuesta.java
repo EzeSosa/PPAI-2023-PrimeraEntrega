@@ -10,7 +10,8 @@ import java.util.Date;
 import java.util.List;
 
 public class GestorConsultarEncuesta {
-    // atributos por valor del gestor
+
+    // Atributos por valor del gestor
     private Date fechaInicioPeriodoAConsultar;
     private Date fechaFinPeriodoAConsultar;
     private String nombreCliente, nombreEstadoActual, descripcionEncuesta, opcionGeneracionInformeSeleccionada;
@@ -18,7 +19,7 @@ public class GestorConsultarEncuesta {
     private boolean encuestaEnviada;
     private List<String> descripcionRespuestasCliente, descripcionPreguntasEncuesta, opcionesGeneracionInforme;
 
-    // atributos por referencia del gestor
+    // Atributos por referencia del gestor
     private PantallaConsultarEncuesta pantallaConsultarEncuesta;
     private Llamada llamadaSeleccionada;
     private List<Llamada> llamadas;
@@ -28,14 +29,18 @@ public class GestorConsultarEncuesta {
 
     // Constructor del Gestor
     public GestorConsultarEncuesta(PantallaConsultarEncuesta pantallaConsultarEncuesta, Session sesion) {
-        this.sesion = sesion;
+        this.sesion = sesion; // Se obtiene la sesión necesaria para obtener las Encuestas y las Llamadas
         this.pantallaConsultarEncuesta = pantallaConsultarEncuesta;
+        this.cargarLlamadasYEncuestas();
+    }
 
-        // Carga de Encuestas al Gestor
+    // Carga de Encuestas y Llamadas al Gestor
+    private void cargarLlamadasYEncuestas(){
+        // Carga de Encuestas mediante una query
         Query query = sesion.createQuery("FROM Encuesta");
         encuestas = query.getResultList();
 
-        // Carga de Llamadas al Gestor
+        // Carga de Llamadas mediante una query
         query = sesion.createQuery("FROM Llamada");
         llamadas = query.getResultList();
     }
@@ -46,49 +51,49 @@ public class GestorConsultarEncuesta {
     }
 
     // Solicitud de la Fecha Desde y de la Fecha Hasta
-    public void consultarPeriodoEncuestas() {
+    private void consultarPeriodoEncuestas() {
         pantallaConsultarEncuesta.solicitarPeriodoConsulta();
     }
 
-    // método para obtener el periodo seleccionado de la encuesta
+    // Obtención del periodo seleccionado de la pantalla
     public void tomarPeriodoSeleccionado(Date fechaDesde, Date fechaHasta) {
-        if (fechaDesde != null && fechaHasta != null) {
+        if (fechaDesde != null && fechaHasta != null) { // Se verifica que ambas fechas estén seleccionadas
             this.fechaInicioPeriodoAConsultar = fechaDesde;
             this.fechaFinPeriodoAConsultar = fechaHasta;
 
-            if (validarPeriodoIngresado()) {
+            if (validarPeriodoIngresado()) { // Se valida el periodo ingresado
                 this.buscarLlamadasConEncuestaEnPeriodo();
             }
         }
     }
 
     // Validación del periodo ingresado (fecha desde < fecha hasta y ambas menores a la fecha actual)
-    public boolean validarPeriodoIngresado() {
+    private boolean validarPeriodoIngresado() {
         return this.fechaInicioPeriodoAConsultar.before(this.fechaFinPeriodoAConsultar) &&
                 this.fechaFinPeriodoAConsultar.before(new Date());
     }
 
     // Obtención de Llamadas con encuesta respondida en el período
-    public void buscarLlamadasConEncuestaEnPeriodo() {
+    private void buscarLlamadasConEncuestaEnPeriodo() {
         llamadasConEncuestaEnPeriodo = new ArrayList<>();
-        for (Llamada llamada: llamadas) {
+        for (Llamada llamada: llamadas) { // Se itera cada llamada y a cada una se le pregunta si es de periodo y si tiene encuesta respondida
             if (llamada.esDePeriodo(this.fechaInicioPeriodoAConsultar.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                                     this.fechaFinPeriodoAConsultar.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
                 && llamada.existeEncuestaRespondida()) {
                 llamadasConEncuestaEnPeriodo.add(llamada);
             }
         }
-        pantallaConsultarEncuesta.mostrarLlamadasConEncuestaEnPeriodo(llamadasConEncuestaEnPeriodo);
+        pantallaConsultarEncuesta.mostrarLlamadasConEncuestaEnPeriodo(llamadasConEncuestaEnPeriodo); // Se muestran las llamadas que cumplieron con la condición
     }
 
-    // método para obtener la llamada seleccionada
-    public void tomarSeleccionLlamada (Llamada llamadaSeleccionada) {
+    // Método para obtener la llamada seleccionada
+    public void tomarLlamadaSeleccionada (Llamada llamadaSeleccionada) {
         this.llamadaSeleccionada = llamadaSeleccionada;
         this.buscarDatosLlamadaSeleccionada();
         this.buscarDatosRespuestasDeCliente();
     }
 
-    // método para obtener los datos de la llamada seleccionada
+    // Obtención de los datos de la llamada seleccionada
     public void buscarDatosLlamadaSeleccionada() {
         this.nombreCliente = this.llamadaSeleccionada.getNombreClienteLlamada();
         this.nombreEstadoActual = this.llamadaSeleccionada.getNombreEstadoActual();
@@ -96,7 +101,7 @@ public class GestorConsultarEncuesta {
         pantallaConsultarEncuesta.mostrarDatosObtenidos(this.nombreCliente, this.nombreEstadoActual, this.duracionLlamada);
     }
 
-    // método para obtener las descripciones de las respuestas del cliente
+    // Obtención de la descripción de las respuestas seleccionadas por el cliente
     public void buscarDatosRespuestasDeCliente() {
         this.descripcionRespuestasCliente = llamadaSeleccionada.getDescripcionRespuestasDeCliente();
     }

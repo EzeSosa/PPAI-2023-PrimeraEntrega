@@ -1,6 +1,8 @@
 package cu44.Interfaz;
+
 import cu44.Controlador.GestorConsultarEncuesta;
 import cu44.Modelo.Llamada;
+
 import org.hibernate.Session;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -12,81 +14,108 @@ import java.util.ArrayList;
 
 public class PantallaConsultarEncuesta extends JFrame implements ActionListener {
 
-    private GestorConsultarEncuesta gestorConsultarEncuesta;
-    private JLabel labelFechaDesde, labelFechaHasta;
+    // Atributos por valor de PantallaConsultarEncuesta
+    private JLabel labelFechaDesde;
+    private JLabel labelFechaHasta;
+    private JLabel labelNombreCliente;
+    private JLabel labelEstadoActual;
+    private JLabel labelDuracionLlamada;
+    private JLabel labelDescripcionEncuesta;
+
     private JPanel JPanel;
+
+    private JScrollPane jScrollLlamadas;
+    private JScrollPane jScrollPreguntas;
+
     private JXDatePicker dateFechaDesde;
     private JXDatePicker dateFechaHasta;
+
     private JTable tablaLlamadas;
-    private JLabel labelNombreCliente;
     private JTable tablaPreguntasRespuestas;
-    private JButton btnGenerarCSV;
-    private JButton btnFinCU;
+
     private JTextField txtEstadoActual;
     private JTextField txtDescripcionEncuesta;
     private JTextField txtNombreCliente;
     private JTextField txtDuracionLlamada;
-    private JLabel labelEstadoActual;
-    private JLabel labelDuracionLlamada;
-    private JLabel labelDescripcionEncuesta;
-    private JScrollPane jScrollLlamadas;
-    private JScrollPane jScrollPreguntas;
+
+    private JButton btnGenerarCSV;
     private JButton btnImprimir;
+
+    // Atributos por referencia de PantallaConsultarEncuesta
+    private GestorConsultarEncuesta gestorConsultarEncuesta;
     private ArrayList<Llamada> llamadasConEncuestaEnPeriodo;
 
-    // constructor de la pantalla
+    // Constructor
     public PantallaConsultarEncuesta(Session sesion) {
-        gestorConsultarEncuesta = new GestorConsultarEncuesta(this, sesion);
+        gestorConsultarEncuesta = new GestorConsultarEncuesta(this, sesion); // Se asigna el gestor
 
-        // Columnas de la Tabla de Llamadas
+        // Configuración de la Tabla de Llamadas
         jScrollLlamadas.setPreferredSize(new Dimension(400, 120));
         DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
         dtm.addColumn("ID Llamada");
-        dtm.addColumn("Nombre de Cliente");
+        dtm.addColumn("Descripción del Operador");
 
-        // Columnas de la Tabla de Encuestas
-        jScrollPreguntas.setPreferredSize(new Dimension(400, 300));
+        // Configuración de la Tabla de Preguntas y Respuestas
+        jScrollPreguntas.setPreferredSize(new Dimension(400, 200));
         DefaultTableModel dtm2 = (DefaultTableModel) tablaPreguntasRespuestas.getModel();
         dtm2.addColumn("Pregunta");
         dtm2.addColumn("Respuesta de Cliente");
+
+        // ActionListener del JXDatePicker de la fecha desde
         dateFechaDesde.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gestorConsultarEncuesta.tomarPeriodoSeleccionado(dateFechaDesde.getDate(), dateFechaHasta.getDate());
+                tomarSeleccionFechaInicio();
             }
         });
+
+        // ActionListener del JXDatePicker de la fecha hasta
         dateFechaHasta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gestorConsultarEncuesta.tomarPeriodoSeleccionado(dateFechaDesde.getDate(), dateFechaHasta.getDate());
+                tomarSeleccionFechaFin();
             }
         });
+
+        // ActionListener de la llamada seleccionada
         tablaLlamadas.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                tomarSeleccionLlamada(tablaLlamadas.getSelectedRow());
+                tomarSeleccionLlamada();
             }
         });
     }
 
-    // método que inicia el caso de uso
+    // Inicio del Caso de Uso
     public void opcionConsultarEncuesta() {
         this.habilitarVentana();
         gestorConsultarEncuesta.nuevaConsultaEncuesta();
     }
 
-    // método para solicitar los periodos de la consulta
-    public void solicitarPeriodoConsulta() {
-    }
-
-    // método para habilitar la ventana de la consulta (se crea el JFrame)
+    // Habilitación de la pantalla (creación del JFrame con los elementos)
     public void habilitarVentana() {
         JFrame frame = new JFrame("Consultar Encuesta - PPAI Grupo 1");
         frame.setContentPane(JPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    // Solicitud del periodo de la consulta. Se hacen visibles los JXDatePicker
+    public void solicitarPeriodoConsulta() {
+        dateFechaDesde.setVisible(true);
+        dateFechaHasta.setVisible(true);
+    }
+
+    // Método para tomar la selección de la fecha desde
+    public void tomarSeleccionFechaInicio() {
+        gestorConsultarEncuesta.tomarPeriodoSeleccionado(dateFechaDesde.getDate(), dateFechaHasta.getDate());
+    }
+
+    // Método para tomar la selección de la fecha hasta
+    public void tomarSeleccionFechaFin() {
+        gestorConsultarEncuesta.tomarPeriodoSeleccionado(dateFechaDesde.getDate(), dateFechaHasta.getDate());
     }
 
     // Método para mostrar las llamadas en la Tabla de llamadas
@@ -96,21 +125,23 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         dtm.setRowCount(0);
 
         for (Llamada llamada: llamadasConEncuestaEnPeriodo) {
-            dtm.addRow(new Object[] {llamada.getId(), llamada.getNombreClienteLlamada()});
+            dtm.addRow(new Object[] {llamada.getId(), llamada.getDescripcionOperador()});
         }
     }
 
-    public void tomarSeleccionLlamada(int indiceLlamada) {
-        gestorConsultarEncuesta.tomarSeleccionLlamada(llamadasConEncuestaEnPeriodo.get(indiceLlamada));
+    // Método para tomar la selección de la llamada
+    public void tomarSeleccionLlamada() {
+        gestorConsultarEncuesta.tomarLlamadaSeleccionada(llamadasConEncuestaEnPeriodo.get(tablaLlamadas.getSelectedRow()));
     }
 
+    // Método para mostrar los datos obtenidos de la llamada, la encuesta y sus preguntas con sus respuestas
     public void mostrarDatosObtenidos(String nombreCliente, String nombreEstado, int duracion) {
         txtNombreCliente.setText(nombreCliente);
         txtEstadoActual.setText(nombreEstado);
         txtDuracionLlamada.setText(String.valueOf(duracion) + " min");
     }
 
-    // método que capta las acciones de los botones. Es inherente a ActionListener
+    // Método para captar la funcionalidad de los botones. Inherente a ActionListener
     @Override
     public void actionPerformed(ActionEvent evt){
     }
