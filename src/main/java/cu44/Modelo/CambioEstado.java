@@ -1,51 +1,51 @@
 package cu44.Modelo;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 public class CambioEstado {
-    // atributos por valor de cambioestado
+    // Atributos por valor de CambioEstado
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime fechaHoraInicio;
     private LocalDateTime fechaHoraFin;
 
-    // atributos por referencia de cambioestado
+    // Atributo por referencia de CambioEstado
     @ManyToOne
     private Estado estado;
 
-    // constructor de cambioestado
+    // Constructor con parámetros
     public CambioEstado (LocalDateTime fechaHoraInicio, Estado estado){
         this.fechaHoraInicio = fechaHoraInicio;
         this.estado = estado;
     }
 
+    // Constructor sin parámetros
     public CambioEstado(){
     }
 
-    // método para verificar si el cambioestado corresponde al estado inicial
+    // Verificación de si es el cambio de estado inicial (Iniciada)
     public boolean esEstadoInicial(){
         return estado.esIniciada();
     }
 
-    // metodo para verificar si es el cambio de estado correspondiente al estado actual
+    // Verificación de si es el cambio de estado final
     public boolean esUltimoEstado(){
         return this.fechaHoraFin == null;
     }
 
-    // metodo para obtener la fecha y la hora de inicio de cambioestado
+    // Getter de fechaHoraInicio
     public LocalDateTime getFechaHoraInicio(){
         return this.fechaHoraInicio;
     }
 
-    // metodo para obtener el nombre del estado correspondiente al cambio
+    // Getter del nombre del Estado asociado
     public String getNombreEstado(){
         return estado.getNombre();
     }
 
-    // metodo para setear la fecha de fin del cambio de estado
+    // Setter de fechaHoraFin
     public void setFechaHoraFin (LocalDateTime fechaHoraFin){
         this.fechaHoraFin = fechaHoraFin;
     }

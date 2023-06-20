@@ -16,23 +16,23 @@ public class Encuesta {
     @OneToMany
     private List<Pregunta> pregunta;
 
-    // Constructor
-    public Encuesta (){
+    // Constructor sin parámetros
+    public Encuesta() {
     }
 
-    // Método para obtener la descripción de la encuesta
-    public String getDescripcionEncuesta(){
+    // Getter de la descripción de la encuesta
+    public String getDescripcionEncuesta() {
         return this.descripcion;
     }
 
-    // método para verificar si la encuesta es vigente (toma como parámetro la fecha actual)
-    public boolean esVigente (LocalDate fechaActual){
+    // Verificación de si la encuesta es vigente
+    public boolean esVigente(LocalDate fechaActual) {
         return fechaActual.isBefore(fechaFinVigencia);
     }
 
-    // método para verificar si la encuesta es la encuesta de cliente (toma las respuestas de cliente como parámetro)
-    public boolean esEncuestaDeCliente (Llamada llamadaSeleccionada){
-        for (Pregunta preg: pregunta) { // la encuesta le consulta a sus preguntas si tiene sus respuestas posibles
+    // Comprobación de si la encuesta enviada corresponde a la llamada
+    public boolean esEncuestaDeCliente(Llamada llamadaSeleccionada) {
+        for (Pregunta preg : pregunta) { // Se consulta a cada pregunta si contiene las respuestas del Cliente
             if (preg.esEncuestaDeCliente(llamadaSeleccionada.getRespuestasDeEncuesta())) {
                 return true;
             }
@@ -40,12 +40,8 @@ public class Encuesta {
         return false;
     }
 
-    // método para armar la encuesta con sus preguntas
+    // Armado de la Encuesta con sus Preguntas
     public String armarEncuesta() {
         return "";
-    }
-
-    public List<Pregunta> getPreguntas() {
-        return this.pregunta;
     }
 }

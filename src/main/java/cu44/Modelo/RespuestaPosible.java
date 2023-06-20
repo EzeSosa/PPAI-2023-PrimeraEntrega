@@ -3,27 +3,29 @@ import javax.persistence.*;
 
 @Entity
 public class RespuestaPosible {
-    // atributos por valor de la respuesta posible
+    // Atributos por valor de RespuestaPosible
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int valor;
     private String descripcion;
 
-    // constructor de la respuesta posible
+    // Constructor con parámetros
     public RespuestaPosible (int valor, String descripcion){
         this.valor = valor;
         this.descripcion = descripcion;
     }
 
+    // Constructor sin parámetros
     public RespuestaPosible() {
     }
 
-    // método para obtener la descripción de la respuesta posible
+    // Getter de la descripción de la respuesta
     public String getDescripcionRta(){
         return this.descripcion;
     }
 
+    // Getter del valor de la respuesta
     public int getValor() {
         return this.valor;
     }

@@ -3,24 +3,25 @@ import javax.persistence.*;
 
 @Entity
 public class Cliente {
-    // atributos por valor del cliente
+    // Atributos por valor de Cliente
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int dni, nroCelular;
     private String nombreCompleto;
 
-    // constructor del cliente
+    // Constructor con parámetros
     public Cliente (int dni, int nroCelular, String nombreCompleto) {
         this.dni = dni;
         this.nroCelular = nroCelular;
         this.nombreCompleto = nombreCompleto;
     }
 
+    // Constructor sin parámetros
     public Cliente() {
     }
 
-    // método para obtener el nombre del cliente
+    // Getter del nombre del cliente
     public String getNombre(){
         return this.nombreCompleto;
     }

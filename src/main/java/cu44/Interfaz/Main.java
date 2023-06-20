@@ -1,20 +1,13 @@
 package cu44.Interfaz;
-
 import cu44.Modelo.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
-import org.hibernate.query.Query;
-
-import java.util.List;
 import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) {
-        PantallaConsultarEncuesta pantallaConsultarEncuesta = new PantallaConsultarEncuesta();
-        pantallaConsultarEncuesta.opcionConsultarEncuesta();
-
         // Configuración de la Sesión
 
         Configuration configuration = new Configuration();
@@ -29,30 +22,22 @@ public class Main {
 
         // Mapeo de las Clases
 
-        configuration.addAnnotatedClass(Cliente.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(Estado.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(Llamada.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(Encuesta.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(CambioEstado.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(Pregunta.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(RespuestaPosible.class); // BIEN MAPEADA
-        configuration.addAnnotatedClass(RespuestaDeCliente.class); // BIEN MAPEADA
+        configuration.addAnnotatedClass(Cliente.class);
+        configuration.addAnnotatedClass(Estado.class);
+        configuration.addAnnotatedClass(Llamada.class);
+        configuration.addAnnotatedClass(Encuesta.class);
+        configuration.addAnnotatedClass(CambioEstado.class);
+        configuration.addAnnotatedClass(Pregunta.class);
+        configuration.addAnnotatedClass(RespuestaPosible.class);
+        configuration.addAnnotatedClass(RespuestaDeCliente.class);
 
         // Creación de la Sesión
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
         Session session = sessionFactory.openSession();
 
-        Query query = session.createQuery("FROM Llamada", Llamada.class);
-        List<Llamada> llamadas = query.getResultList();
-
-        for (Llamada call: llamadas) {
-            System.out.println("Duración:" + call.getDuracion() + "Nombre Cliente: " + call.getNombreClienteLlamada());
-            for (CambioEstado cambio: call.getCambioEstado()){
-                System.out.println(cambio.getNombreEstado());
-            }
-        }
-
-        session.close();
+        // Creación de la Pantalla y el Gestor
+        PantallaConsultarEncuesta pantallaConsultarEncuesta = new PantallaConsultarEncuesta(session);
+        pantallaConsultarEncuesta.opcionConsultarEncuesta();
     }
 }

@@ -4,30 +4,32 @@ import java.time.LocalDate;
 
 @Entity
 public class RespuestaDeCliente {
-    // atributos por valor de respuestadecliente
+    // Atributos por valor de RespuestaDeCliente
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private LocalDate fechaEncuesta;
 
+    // Atributos por referencia de RespuestaDeCliente
     @ManyToOne
     private RespuestaPosible respuestaSeleccionada;
 
-    private LocalDate fechaEncuesta;
 
-    // constructor de respuestadecliente
+    // Constructor con parámetros
     public RespuestaDeCliente(RespuestaPosible respuestaSeleccionada){
         this.respuestaSeleccionada = respuestaSeleccionada;
     }
 
+    // Constructor sin parámetros
     public RespuestaDeCliente() {
     }
 
-    // método para obtener la descripción de la respuesta seleccionada
+    // Obtención de la descripción de la respuesta posible asociada
     public String getDescripcionRta(){
         return respuestaSeleccionada.getDescripcionRta();
     }
 
-    // método para obtener la respuesta posible
+    // Obtención del puntero a la respuesta posible
     public RespuestaPosible getRespuestaPosible() {
         return this.respuestaSeleccionada;
     }
