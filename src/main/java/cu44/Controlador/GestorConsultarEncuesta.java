@@ -65,6 +65,7 @@ public class GestorConsultarEncuesta {
 
             if (validarPeriodoIngresado()) { // Se valida el periodo ingresado
                 this.buscarLlamadasConEncuestaEnPeriodo();
+                pantallaConsultarEncuesta.mostrarLlamadasConEncuestaEnPeriodo(llamadasConEncuestaEnPeriodo); // Se muestran las llamadas que cumplieron con la condición
             } else {
                 pantallaConsultarEncuesta.informarPeriodoInvalido();
             }
@@ -83,11 +84,10 @@ public class GestorConsultarEncuesta {
         for (Llamada llamada: llamadas) { // Se itera cada llamada y a cada una se le pregunta si es de periodo y si tiene encuesta respondida
             if (llamada.esDePeriodo(this.fechaInicioPeriodoAConsultar.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                                     this.fechaFinPeriodoAConsultar.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
-                && llamada.existeEncuestaRespondida()) {
+                && llamada.tieneEncuestaRespondida()) {
                 llamadasConEncuestaEnPeriodo.add(llamada);
             }
         }
-        pantallaConsultarEncuesta.mostrarLlamadasConEncuestaEnPeriodo(llamadasConEncuestaEnPeriodo); // Se muestran las llamadas que cumplieron con la condición
     }
 
     // Método para obtener la llamada seleccionada
@@ -96,7 +96,9 @@ public class GestorConsultarEncuesta {
         this.buscarDatosLlamadaSeleccionada();
         this.buscarDatosRespuestasDeCliente();
         this.buscarDatosEncuestaYPreguntas();
-        pantallaConsultarEncuesta.mostrarDatosObtenidos(this.nombreCliente, this.nombreEstadoActual, this.duracionLlamada, this.descripcionEncuesta, this.descripcionRespuestasCliente, this.descripcionPreguntasEncuesta);
+        pantallaConsultarEncuesta.mostrarDatosLlamadaYEncuesta(this.nombreCliente, this.nombreEstadoActual, this.duracionLlamada,
+                                                               this.descripcionEncuesta, this.descripcionRespuestasCliente,
+                                                               this.descripcionPreguntasEncuesta);
         pantallaConsultarEncuesta.solicitarOpcionRespuestaEncuesta();
     }
 
@@ -129,17 +131,19 @@ public class GestorConsultarEncuesta {
 
         // Se comprueba que la opción seleccionada sea la del CSV
         if (opcionSeleccionada == "CSV") {
-            interfazCSV.crearArchivoCSV(this.nombreCliente, String.valueOf(this.duracionLlamada), this.nombreEstadoActual, this.descripcionPreguntasEncuesta, this.descripcionRespuestasCliente);
+            this.generarArchivoCSV();
         } else if (opcionSeleccionada == "Imprimir") {
             System.out.println("Imprimiendo... \nNo apague ni desconecte el equipo");
         }
     }
 
-    // método para generar el archivo CSV
+    // Método para generar el archivo CSV
     public void generarArchivoCSV() {
+        interfazCSV.crearArchivoCSV(this.nombreCliente, String.valueOf(this.duracionLlamada), this.nombreEstadoActual, // Se llama al método definido en la Interfaz CSV
+                                    this.descripcionPreguntasEncuesta, this.descripcionRespuestasCliente);
     }
 
-    // método para finalizar el caso de uso
+    // Método para finalizar el CU
     public void finCU() {
         System.exit(0);
     }

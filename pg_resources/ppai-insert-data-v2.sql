@@ -29,7 +29,9 @@ INSERT INTO llamada (descripcionoperador, duracion, encuestaenviada, cliente_id,
                                                                                                          ('Solicitud de nueva tarjeta por robo', 13, true, 7, 2),
                                                                                                          ('No pasó por operador', 6, true, 6, 4),
                                                                                                          ('Anulación de la tarjeta por robo', 12, true, 1, 4),
-                                                                                                         ('No pasó por operador', 4, true, 3, 2);
+                                                                                                         ('No pasó por operador', 4, true, 3, 2),
+                                                                                                         ('Saldo negativo en la tarjeta', 21, true, 5, 6),
+                                                                                                         ('Bloqueo de tarjeta por deudas', 17, true, 6, 7);
 
 
 INSERT INTO encuesta (descripcion, fechaFinVigencia) VALUES ('Satisfaccion del Cliente', '2023-12-12'),
@@ -137,8 +139,15 @@ INSERT INTO respuestadecliente (fechaencuesta, respuestaseleccionada_id) VALUES 
                                                                                 ('2023-06-05', 9),
 
                                                                                 ('2023-06-18', 33), -- LLAMADA 13, ENCUESTA 4
-                                                                                ('2023-06-18', 34);
+                                                                                ('2023-06-18', 34),
 
+                                                                                ('2023-06-19', 20), -- LLAMADA 14, ENCUESTA 3
+                                                                                ('2023-06-19', 23),
+                                                                                ('2023-06-19', 27),
+
+                                                                                ('2023-04-19', 12), -- LLAMADA 15, ENCUESTA 2
+                                                                                ('2023-04-19', 15),
+                                                                                ('2023-04-19', 19);
 
 INSERT INTO llamada_respuestadecliente (llamada_id, respuestasdeencuesta_id) VALUES (1, 1),
                                                                                     (1, 2),
@@ -175,7 +184,15 @@ INSERT INTO llamada_respuestadecliente (llamada_id, respuestasdeencuesta_id) VAL
                                                                                     (12, 25),
 
                                                                                     (13, 26),
-                                                                                    (13, 27);
+                                                                                    (13, 27),
+
+                                                                                    (14, 28),
+                                                                                    (14, 29),
+                                                                                    (14, 30),
+
+                                                                                    (15, 31),
+                                                                                    (15, 32),
+                                                                                    (15, 33);
 
 
 INSERT INTO cambioestado (fechahorafin, fechahorainicio, estado_id) VALUES 
@@ -233,7 +250,19 @@ INSERT INTO cambioestado (fechahorafin, fechahorainicio, estado_id) VALUES
     (NULL, '2023-06-06 09:05', 4),
 
     ('2023-06-18 13:09', '2023-06-18 13:05', 1), -- LLAMADA 13
-    (NULL, '2023-06-18 13:09', 2);
+    (NULL, '2023-06-18 13:09', 2),
+
+    ('2023-06-19 15:40', '2023-06-19 15:36', 1), -- LLAMADA 14
+    ('2023-06-19 15:56', '2023-06-19 15:40', 3),
+    ('2023-06-20 08:43', '2023-06-19 15:56', 2),
+    ('2023-06-20 08:59', '2023-06-20 08:43', 5),
+    (NULL, '2023-06-20 08:59', 6),
+
+    ('2023-04-19 08:12', '2023-04-19 08:08', 1), -- LLAMADA 15
+    ('2023-04-19 08:25', '2023-04-19 08:12', 3),
+    ('2023-04-20 10:01', '2023-04-19 08:25', 2),
+    ('2023-04-20 17:04', '2023-04-20 10:01', 5),
+    (NULL, '2023-04-20 17:04', 7);
 
 
 INSERT INTO llamada_cambioestado (llamada_id, cambioestado_id) VALUES (1, 1),
@@ -290,4 +319,16 @@ INSERT INTO llamada_cambioestado (llamada_id, cambioestado_id) VALUES (1, 1),
                                                                       (12, 41),
 
                                                                       (13, 42),
-                                                                      (13, 43);
+                                                                      (13, 43),
+
+                                                                      (14, 44),
+                                                                      (14, 45),
+                                                                      (14, 46),
+                                                                      (14, 47),
+                                                                      (14, 48),
+
+                                                                      (15, 49),
+                                                                      (15, 50),
+                                                                      (15, 51),
+                                                                      (15, 52),
+                                                                      (15, 53);

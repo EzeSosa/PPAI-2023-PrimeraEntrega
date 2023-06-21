@@ -51,13 +51,13 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         gestorConsultarEncuesta = new GestorConsultarEncuesta(this, sesion); // Se asigna el gestor
 
         // Configuración de la Tabla de Llamadas
-        jScrollLlamadas.setPreferredSize(new Dimension(400, 160));
+        jScrollLlamadas.setPreferredSize(new Dimension(400, 170));
         DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
         dtm.addColumn("ID Llamada");
         dtm.addColumn("Descripción del Operador");
 
         // Configuración de la Tabla de Preguntas y Respuestas
-        jScrollPreguntas.setPreferredSize(new Dimension(400, 80));
+        jScrollPreguntas.setPreferredSize(new Dimension(400, 75));
         DefaultTableModel dtm2 = (DefaultTableModel) tablaPreguntasRespuestas.getModel();
         dtm2.addColumn("Pregunta");
         dtm2.addColumn("Respuesta de Cliente");
@@ -142,8 +142,8 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
         dtm.setRowCount(0);
 
-        for (Llamada llamada: llamadasConEncuestaEnPeriodo) {
-            dtm.addRow(new Object[] {llamada.getId(), llamada.getDescripcionOperador()});
+        for (Llamada llamada : llamadasConEncuestaEnPeriodo) {
+            dtm.addRow(new Object[]{llamada.getId(), llamada.getDescripcionOperador()});
         }
     }
 
@@ -153,7 +153,7 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
     }
 
     // Método para mostrar los datos obtenidos de la llamada, la encuesta y sus preguntas con sus respuestas
-    public void mostrarDatosObtenidos(String nombreCliente, String nombreEstado, int duracion, String descripcionEncuesta, ArrayList<String> descripcionRespuestasCliente, ArrayList<String> descripcionPreguntasEncuesta) {
+    public void mostrarDatosLlamadaYEncuesta(String nombreCliente, String nombreEstado, int duracion, String descripcionEncuesta, ArrayList<String> descripcionRespuestasCliente, ArrayList<String> descripcionPreguntasEncuesta) {
         txtNombreCliente.setText(nombreCliente);
         txtEstadoActual.setText(nombreEstado);
         txtDuracionLlamada.setText(String.valueOf(duracion) + " min");
@@ -164,7 +164,7 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
 
         // Se muestran las preguntas de la encuesta con la respuesta del cliente elegida
         for (int i = 0; i < descripcionRespuestasCliente.size(); i++) {
-            dtm.addRow(new Object[] {descripcionPreguntasEncuesta.get(i), descripcionRespuestasCliente.get(i)});
+            dtm.addRow(new Object[]{descripcionPreguntasEncuesta.get(i), descripcionRespuestasCliente.get(i)});
         }
     }
 
@@ -202,6 +202,6 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
 
     // Método para captar la funcionalidad de los botones. Inherente a ActionListener
     @Override
-    public void actionPerformed(ActionEvent evt){
+    public void actionPerformed(ActionEvent evt) {
     }
 }

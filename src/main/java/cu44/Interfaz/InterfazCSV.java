@@ -7,21 +7,28 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class InterfazCSV {
-    private String nombreArchivo;
+    // Atributos por valor de la interfaz del CSV
+    private String nombreArchivo, encabezadoLlamada, encabezadoPreguntas;
 
+    // Constructor de la interfaz del CSV
+    public InterfazCSV() {
+        this.nombreArchivo = "consultaencuesta.csv";
+        this.encabezadoLlamada = "Nombre del Cliente,Duracion,Estado Actual";
+        this.encabezadoPreguntas = "Pregunta,Respuesta de Cliente";
+    }
+
+    // Método para crear el CSV
     public void crearArchivoCSV(String nombreCliente, String duracion, String estadoActual, ArrayList<String> preguntas, ArrayList<String> respuestasDeCliente) {
-        nombreArchivo = "datos.csv";
-
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(nombreArchivo))) {
             // Encabezado de los datos de la llamada
-            writer.write("Nombre del Cliente,Duracion,Estado Actual");
+            writer.write(encabezadoLlamada);
 
             writer.newLine();
             writer.write(nombreCliente + "," + duracion + "," + estadoActual); // Se cargan los datos de la llamada
             writer.newLine();
 
             // Encabezado de las preguntas y las respuestas
-            writer.write("Pregunta,Respuesta de Cliente");
+            writer.write(encabezadoPreguntas);
 
             writer.newLine();
             for (int i = 0; i < preguntas.size(); i++) {

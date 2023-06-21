@@ -59,17 +59,8 @@ public class Llamada {
     }
 
     // Comprobación de si la Llamada tiene encuesta respondida
-    public boolean existeEncuestaRespondida(){
+    public boolean tieneEncuestaRespondida(){
         return !this.respuestasDeEncuesta.isEmpty(); // Se comprueba que el array de respuestas de cliente no sea vacío
-    }
-
-    // Obtención de la descripción de las respuestas de cliente de la llamada
-    public ArrayList<String> getDescripcionRespuestasDeCliente(){
-        ArrayList<String> respuestas = new ArrayList<>(); // Se obtienen las descripciones de las respuestas seleccionadas
-        for (RespuestaDeCliente respuesta: respuestasDeEncuesta) {
-            respuestas.add(respuesta.getDescripcionRta());
-        }
-        return respuestas;
     }
 
     // Getter del nombre del cliente asociado
@@ -85,6 +76,15 @@ public class Llamada {
     // Getter de la duración de la llamada
     public int getDuracion(){
         return this.duracion;
+    }
+
+    // Obtención de la descripción de las respuestas de cliente de la llamada
+    public ArrayList<String> getDescripcionRespuestasDeCliente(){
+        ArrayList<String> respuestas = new ArrayList<>(); // Se obtienen las descripciones de las respuestas seleccionadas
+        for (RespuestaDeCliente respuesta: respuestasDeEncuesta) {
+            respuestas.add(respuesta.getDescripcionRta());
+        }
+        return respuestas;
     }
 
     // Getter de las respuestas del cliente de la llamada
