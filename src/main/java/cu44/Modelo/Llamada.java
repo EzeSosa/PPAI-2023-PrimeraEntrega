@@ -64,8 +64,8 @@ public class Llamada {
     }
 
     // Obtención de la descripción de las respuestas de cliente de la llamada
-    public List<String> getDescripcionRespuestasDeCliente(){
-        List<String> respuestas = new ArrayList<>(); // Se obtienen las descripciones de las respuestas seleccionadas
+    public ArrayList<String> getDescripcionRespuestasDeCliente(){
+        ArrayList<String> respuestas = new ArrayList<>(); // Se obtienen las descripciones de las respuestas seleccionadas
         for (RespuestaDeCliente respuesta: respuestasDeEncuesta) {
             respuestas.add(respuesta.getDescripcionRta());
         }

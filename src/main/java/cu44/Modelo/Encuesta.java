@@ -1,6 +1,7 @@
 package cu44.Modelo;
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -41,7 +42,11 @@ public class Encuesta {
     }
 
     // Armado de la Encuesta con sus Preguntas
-    public String armarEncuesta() {
-        return "";
+    public ArrayList<String> armarEncuesta() {
+        ArrayList<String> respuestasEncuesta = new ArrayList<>();
+        for (Pregunta preg: pregunta) {
+            respuestasEncuesta.add(preg.getDescripcion());
+        }
+        return respuestasEncuesta;
     }
 }

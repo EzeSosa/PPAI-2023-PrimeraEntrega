@@ -3,6 +3,7 @@ package cu44.Interfaz;
 import cu44.Controlador.GestorConsultarEncuesta;
 import cu44.Modelo.Llamada;
 
+import net.bytebuddy.pool.TypePool;
 import org.hibernate.Session;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -56,10 +57,11 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         dtm.addColumn("Descripción del Operador");
 
         // Configuración de la Tabla de Preguntas y Respuestas
-        jScrollPreguntas.setPreferredSize(new Dimension(400, 160));
+        jScrollPreguntas.setPreferredSize(new Dimension(400, 80));
         DefaultTableModel dtm2 = (DefaultTableModel) tablaPreguntasRespuestas.getModel();
         dtm2.addColumn("Pregunta");
         dtm2.addColumn("Respuesta de Cliente");
+        tablaPreguntasRespuestas.getColumnModel().getColumn(0).setPreferredWidth(300);
 
         // ActionListener del JXDatePicker de la fecha desde
         dateFechaDesde.addActionListener(new ActionListener() {
@@ -83,6 +85,22 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 tomarSeleccionLlamada();
+            }
+        });
+
+        // ActionListener del botón Generar CSV
+        btnGenerarCSV.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tomarSeleccionOpcion("CSV");
+            }
+        });
+
+        // ActionListener del botón Imprimir
+        btnImprimir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tomarSeleccionOpcion("Imprimir");
             }
         });
     }
@@ -135,10 +153,51 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
     }
 
     // Método para mostrar los datos obtenidos de la llamada, la encuesta y sus preguntas con sus respuestas
-    public void mostrarDatosObtenidos(String nombreCliente, String nombreEstado, int duracion) {
+    public void mostrarDatosObtenidos(String nombreCliente, String nombreEstado, int duracion, String descripcionEncuesta, ArrayList<String> descripcionRespuestasCliente, ArrayList<String> descripcionPreguntasEncuesta) {
         txtNombreCliente.setText(nombreCliente);
         txtEstadoActual.setText(nombreEstado);
         txtDuracionLlamada.setText(String.valueOf(duracion) + " min");
+        txtDescripcionEncuesta.setText(descripcionEncuesta);
+
+        DefaultTableModel dtm = (DefaultTableModel) tablaPreguntasRespuestas.getModel();
+        dtm.setRowCount(0);
+
+        // Se muestran las preguntas de la encuesta con la respuesta del cliente elegida
+        for (int i = 0; i < descripcionRespuestasCliente.size(); i++) {
+            dtm.addRow(new Object[] {descripcionPreguntasEncuesta.get(i), descripcionRespuestasCliente.get(i)});
+        }
+    }
+
+    // Método para seleccionar la opción de visualización de la consulta
+    public void solicitarOpcionRespuestaEncuesta() {
+        this.btnGenerarCSV.setEnabled(true);
+        this.btnImprimir.setEnabled(true);
+    }
+
+    // Método para tomar la selección de la opción de visualización
+    public void tomarSeleccionOpcion(String opcion) {
+        gestorConsultarEncuesta.tomarOpcionSeleccionada(opcion);
+    }
+
+    // Método para informar que el periodo ingresado es inválido
+    public void informarPeriodoInvalido() {
+        // Se limpian todos los datos
+        DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
+        dtm.setRowCount(0);
+
+        DefaultTableModel dtm2 = (DefaultTableModel) tablaPreguntasRespuestas.getModel();
+        dtm2.setRowCount(0);
+
+        txtDescripcionEncuesta.setText("");
+        txtDuracionLlamada.setText("");
+        txtEstadoActual.setText("");
+        txtNombreCliente.setText("");
+
+        btnGenerarCSV.setEnabled(false);
+        btnImprimir.setEnabled(false);
+
+        // Se muestra un mensaje de error
+        JOptionPane.showMessageDialog(null, "El periodo ingresado es invalido", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     // Método para captar la funcionalidad de los botones. Inherente a ActionListener

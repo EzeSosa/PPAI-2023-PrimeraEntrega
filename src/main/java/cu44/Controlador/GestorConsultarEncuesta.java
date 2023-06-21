@@ -1,4 +1,5 @@
 package cu44.Controlador;
+import cu44.Interfaz.InterfazCSV;
 import cu44.Modelo.Encuesta;
 import cu44.Modelo.Llamada;
 import cu44.Interfaz.PantallaConsultarEncuesta;
@@ -16,10 +17,11 @@ public class GestorConsultarEncuesta {
     private Date fechaFinPeriodoAConsultar;
     private String nombreCliente, nombreEstadoActual, descripcionEncuesta, opcionGeneracionInformeSeleccionada;
     private int duracionLlamada;
-    private List<String> descripcionRespuestasCliente, descripcionPreguntasEncuesta, opcionesGeneracionInforme;
+    private ArrayList<String> descripcionRespuestasCliente, descripcionPreguntasEncuesta, opcionesGeneracionInforme;
 
     // Atributos por referencia del gestor
     private PantallaConsultarEncuesta pantallaConsultarEncuesta;
+    private InterfazCSV interfazCSV;
     private Llamada llamadaSeleccionada;
     private List<Llamada> llamadas;
     private List<Encuesta> encuestas;
@@ -30,6 +32,7 @@ public class GestorConsultarEncuesta {
     public GestorConsultarEncuesta(PantallaConsultarEncuesta pantallaConsultarEncuesta, Session sesion) {
         this.sesion = sesion; // Se obtiene la sesión necesaria para obtener las Encuestas y las Llamadas
         this.pantallaConsultarEncuesta = pantallaConsultarEncuesta;
+        this.interfazCSV = new InterfazCSV();
         this.cargarLlamadasYEncuestas();
     }
 
@@ -62,6 +65,8 @@ public class GestorConsultarEncuesta {
 
             if (validarPeriodoIngresado()) { // Se valida el periodo ingresado
                 this.buscarLlamadasConEncuestaEnPeriodo();
+            } else {
+                pantallaConsultarEncuesta.informarPeriodoInvalido();
             }
         }
     }
@@ -90,6 +95,9 @@ public class GestorConsultarEncuesta {
         this.llamadaSeleccionada = llamadaSeleccionada;
         this.buscarDatosLlamadaSeleccionada();
         this.buscarDatosRespuestasDeCliente();
+        this.buscarDatosEncuestaYPreguntas();
+        pantallaConsultarEncuesta.mostrarDatosObtenidos(this.nombreCliente, this.nombreEstadoActual, this.duracionLlamada, this.descripcionEncuesta, this.descripcionRespuestasCliente, this.descripcionPreguntasEncuesta);
+        pantallaConsultarEncuesta.solicitarOpcionRespuestaEncuesta();
     }
 
     // Obtención de los datos de la llamada seleccionada
@@ -97,7 +105,6 @@ public class GestorConsultarEncuesta {
         this.nombreCliente = this.llamadaSeleccionada.getNombreClienteLlamada();
         this.nombreEstadoActual = this.llamadaSeleccionada.getNombreEstadoActual();
         this.duracionLlamada = this.llamadaSeleccionada.getDuracion();
-        pantallaConsultarEncuesta.mostrarDatosObtenidos(this.nombreCliente, this.nombreEstadoActual, this.duracionLlamada);
     }
 
     // Obtención de la descripción de las respuestas seleccionadas por el cliente
@@ -107,11 +114,25 @@ public class GestorConsultarEncuesta {
 
     // método para obtener la encuesta enviada al cliente y la descripción de esa encuesta con sus preguntas
     public void buscarDatosEncuestaYPreguntas() {
+        for (Encuesta encuesta: encuestas) {
+            if (encuesta.esEncuestaDeCliente(llamadaSeleccionada)) {
+                this.descripcionEncuesta = encuesta.getDescripcionEncuesta();
+                this.descripcionPreguntasEncuesta = encuesta.armarEncuesta();
+                break;
+            }
+        }
     }
 
-    // método para tomar la opción de generación de informe
+    // Método para tomar la selección de opción del informe
     public void tomarOpcionSeleccionada(String opcionSeleccionada) {
         this.opcionGeneracionInformeSeleccionada = opcionSeleccionada;
+
+        // Se comprueba que la opción seleccionada sea la del CSV
+        if (opcionSeleccionada == "CSV") {
+            interfazCSV.crearArchivoCSV(this.nombreCliente, String.valueOf(this.duracionLlamada), this.nombreEstadoActual, this.descripcionPreguntasEncuesta, this.descripcionRespuestasCliente);
+        } else if (opcionSeleccionada == "Imprimir") {
+            System.out.println("Imprimiendo... \nNo apague ni desconecte el equipo");
+        }
     }
 
     // método para generar el archivo CSV
