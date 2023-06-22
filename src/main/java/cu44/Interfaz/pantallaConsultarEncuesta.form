@@ -105,6 +105,7 @@
             </constraints>
             <properties>
               <editable value="false"/>
+              <horizontalAlignment value="0"/>
             </properties>
           </component>
           <component id="9b442" class="javax.swing.JLabel" binding="labelFechaDesde">

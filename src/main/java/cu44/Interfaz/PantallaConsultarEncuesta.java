@@ -181,7 +181,18 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
 
     // Método para informar que el periodo ingresado es inválido
     public void informarPeriodoInvalido() {
-        // Se limpian todos los datos
+        this.limpiarDatos();
+        JOptionPane.showMessageDialog(null, "El periodo ingresado es invalido", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    // Método para informar que no hay llamadas en el periodo ingresado
+    public void informarNoHayLlamadas() {
+        this.limpiarDatos();
+        JOptionPane.showMessageDialog(null, "No existen llamadas con encuesta respondida en el periodo", "Error", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    // Método para limpiar los datos de la pantalla
+    private void limpiarDatos() {
         DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
         dtm.setRowCount(0);
 
@@ -195,9 +206,6 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
 
         btnGenerarCSV.setEnabled(false);
         btnImprimir.setEnabled(false);
-
-        // Se muestra un mensaje de error
-        JOptionPane.showMessageDialog(null, "El periodo ingresado es invalido", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     // Método para captar la funcionalidad de los botones. Inherente a ActionListener

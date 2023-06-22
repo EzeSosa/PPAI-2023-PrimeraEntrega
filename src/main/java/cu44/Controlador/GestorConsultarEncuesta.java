@@ -65,7 +65,12 @@ public class GestorConsultarEncuesta {
 
             if (validarPeriodoIngresado()) { // Se valida el periodo ingresado
                 this.buscarLlamadasConEncuestaEnPeriodo();
-                pantallaConsultarEncuesta.mostrarLlamadasConEncuestaEnPeriodo(llamadasConEncuestaEnPeriodo); // Se muestran las llamadas que cumplieron con la condición
+
+                if (this.llamadasConEncuestaEnPeriodo.size() > 0) { // Se valida que el arreglo de llamadas con encuesta en periodo no esté vacío
+                    pantallaConsultarEncuesta.mostrarLlamadasConEncuestaEnPeriodo(this.llamadasConEncuestaEnPeriodo); // Se muestran las llamadas con encuesta en periodo
+                } else {
+                    pantallaConsultarEncuesta.informarNoHayLlamadas();
+                }
             } else {
                 pantallaConsultarEncuesta.informarPeriodoInvalido();
             }
