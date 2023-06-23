@@ -79,7 +79,7 @@ public class GestorConsultarEncuesta {
 
     // Validación del periodo ingresado (fecha desde < fecha hasta y ambas menores a la fecha actual)
     private boolean validarPeriodoIngresado() {
-        return this.fechaInicioPeriodoAConsultar.before(this.fechaFinPeriodoAConsultar) &&
+        return (this.fechaInicioPeriodoAConsultar.before(this.fechaFinPeriodoAConsultar) || this.fechaInicioPeriodoAConsultar.equals(fechaFinPeriodoAConsultar)) &&
                 this.fechaFinPeriodoAConsultar.before(new Date());
     }
 
@@ -88,7 +88,7 @@ public class GestorConsultarEncuesta {
         llamadasConEncuestaEnPeriodo = new ArrayList<>();
         for (Llamada llamada: llamadas) { // Se itera cada llamada y a cada una se le pregunta si es de periodo y si tiene encuesta respondida
             if (llamada.esDePeriodo(this.fechaInicioPeriodoAConsultar.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
-                                    this.fechaFinPeriodoAConsultar.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime())
+                                    this.fechaFinPeriodoAConsultar.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().withHour(23).withMinute(59)) // Conversión de tipos de fecha
                 && llamada.tieneEncuestaRespondida()) {
                 llamadasConEncuestaEnPeriodo.add(llamada);
             }

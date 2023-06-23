@@ -3,7 +3,6 @@ package cu44.Interfaz;
 import cu44.Controlador.GestorConsultarEncuesta;
 import cu44.Modelo.Llamada;
 
-import net.bytebuddy.pool.TypePool;
 import org.hibernate.Session;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -120,7 +119,7 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         frame.setVisible(true);
     }
 
-    // Solicitud del periodo de la consulta. Se hacen visibles los JXDatePicker
+    // Solicitud del periodo de la consulta. Se hacen visibles los JXDatePicker (componentes de selección de fecha)
     public void solicitarPeriodoConsulta() {
         dateFechaDesde.setVisible(true);
         dateFechaHasta.setVisible(true);
@@ -188,7 +187,7 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
     // Método para informar que no hay llamadas en el periodo ingresado
     public void informarNoHayLlamadas() {
         this.limpiarDatos();
-        JOptionPane.showMessageDialog(null, "No existen llamadas con encuesta respondida en el periodo", "Error", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "No existen llamadas con encuesta respondida en el periodo", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
     }
 
     // Método para limpiar los datos de la pantalla

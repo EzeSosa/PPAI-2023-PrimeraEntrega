@@ -1,13 +1,15 @@
-package cu44.Interfaz;
+package cu44.BBDD;
 import cu44.Modelo.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.cfg.Environment;
+
 import java.util.Properties;
 
-public class Main {
-    public static void main(String[] args) {
+public class ConfiguracionBBDD {
+    public Session configurarBBDD() {
+
         // Configuración de la Sesión
 
         Configuration configuration = new Configuration();
@@ -34,10 +36,9 @@ public class Main {
         // Creación de la Sesión
 
         SessionFactory sessionFactory = configuration.buildSessionFactory();
-        Session session = sessionFactory.openSession();
 
-        // Creación de la Pantalla y el Gestor
-        PantallaConsultarEncuesta pantallaConsultarEncuesta = new PantallaConsultarEncuesta(session);
-        pantallaConsultarEncuesta.opcionConsultarEncuesta();
+        // Se devuelve la sesión para el gestor
+
+        return sessionFactory.openSession();
     }
 }
