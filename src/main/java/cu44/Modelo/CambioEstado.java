@@ -15,12 +15,6 @@ public class CambioEstado {
     @ManyToOne
     private Estado estado;
 
-    // Constructor con parámetros
-    public CambioEstado (LocalDateTime fechaHoraInicio, Estado estado){
-        this.fechaHoraInicio = fechaHoraInicio;
-        this.estado = estado;
-    }
-
     // Constructor sin parámetros
     public CambioEstado(){
     }
@@ -38,11 +32,6 @@ public class CambioEstado {
     // Getter de fechaHoraInicio
     public LocalDateTime getFechaHoraInicio(){
         return this.fechaHoraInicio;
-    }
-
-    // Getter del nombre del Estado asociado
-    public String getNombreEstado(){
-        return estado.getNombre();
     }
 
     // Setter de fechaHoraFin

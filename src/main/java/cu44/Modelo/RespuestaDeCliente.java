@@ -14,12 +14,6 @@ public class RespuestaDeCliente {
     @ManyToOne
     private RespuestaPosible respuestaSeleccionada;
 
-
-    // Constructor con parámetros
-    public RespuestaDeCliente(RespuestaPosible respuestaSeleccionada){
-        this.respuestaSeleccionada = respuestaSeleccionada;
-    }
-
     // Constructor sin parámetros
     public RespuestaDeCliente() {
     }

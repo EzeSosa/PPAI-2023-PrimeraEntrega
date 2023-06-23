@@ -9,6 +9,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class GestorConsultarEncuesta {
 
@@ -17,7 +18,7 @@ public class GestorConsultarEncuesta {
     private Date fechaFinPeriodoAConsultar;
     private String nombreCliente, nombreEstadoActual, descripcionEncuesta, opcionGeneracionInformeSeleccionada;
     private int duracionLlamada;
-    private ArrayList<String> descripcionRespuestasCliente, descripcionPreguntasEncuesta, opcionesGeneracionInforme;
+    private ArrayList<String> descripcionRespuestasCliente, descripcionPreguntasEncuesta;
 
     // Atributos por referencia del gestor
     private PantallaConsultarEncuesta pantallaConsultarEncuesta;
@@ -27,6 +28,7 @@ public class GestorConsultarEncuesta {
     private List<Encuesta> encuestas;
     private ArrayList<Llamada> llamadasConEncuestaEnPeriodo;
     private Session sesion;
+    private Encuesta encuestaEnviada;
 
     // Constructor del Gestor
     public GestorConsultarEncuesta(PantallaConsultarEncuesta pantallaConsultarEncuesta, Session sesion) {
@@ -39,12 +41,12 @@ public class GestorConsultarEncuesta {
     // Carga de Encuestas y Llamadas al Gestor
     private void cargarLlamadasYEncuestas(){
         // Carga de Encuestas mediante una query
-        Query query = sesion.createQuery("FROM Encuesta");
-        encuestas = query.getResultList();
+        Query queryConsultas = sesion.createQuery("FROM Encuesta");
+        encuestas = queryConsultas.getResultList();
 
         // Carga de Llamadas mediante una query
-        query = sesion.createQuery("FROM Llamada");
-        llamadas = query.getResultList();
+        Query queryLlamadas = sesion.createQuery("FROM Llamada");
+        llamadas = queryLlamadas.getResultList();
     }
 
     // Inicio del CU
@@ -69,18 +71,18 @@ public class GestorConsultarEncuesta {
                 if (this.llamadasConEncuestaEnPeriodo.size() > 0) { // Se valida que el arreglo de llamadas con encuesta en periodo no esté vacío
                     pantallaConsultarEncuesta.mostrarLlamadasConEncuestaEnPeriodo(this.llamadasConEncuestaEnPeriodo); // Se muestran las llamadas con encuesta en periodo
                 } else {
-                    pantallaConsultarEncuesta.informarNoHayLlamadas();
+                    pantallaConsultarEncuesta.informarNoHayLlamadas(); // Flujo Alternativo
                 }
             } else {
-                pantallaConsultarEncuesta.informarPeriodoInvalido();
+                pantallaConsultarEncuesta.informarPeriodoInvalido(); // Flujo Alternativo
             }
         }
     }
 
-    // Validación del periodo ingresado (fecha desde < fecha hasta y ambas menores a la fecha actual)
+    // Validación del periodo ingresado (fecha desde menor o igual fecha hasta y ambas menores o iguales a la fecha actual)
     private boolean validarPeriodoIngresado() {
         return (this.fechaInicioPeriodoAConsultar.before(this.fechaFinPeriodoAConsultar) || this.fechaInicioPeriodoAConsultar.equals(fechaFinPeriodoAConsultar)) &&
-                this.fechaFinPeriodoAConsultar.before(new Date());
+                (this.fechaFinPeriodoAConsultar.before(new Date()) || this.fechaFinPeriodoAConsultar.equals(new Date()));
     }
 
     // Obtención de Llamadas con encuesta respondida en el período
@@ -104,27 +106,29 @@ public class GestorConsultarEncuesta {
         pantallaConsultarEncuesta.mostrarDatosLlamadaYEncuesta(this.nombreCliente, this.nombreEstadoActual, this.duracionLlamada,
                                                                this.descripcionEncuesta, this.descripcionRespuestasCliente,
                                                                this.descripcionPreguntasEncuesta);
-        pantallaConsultarEncuesta.solicitarOpcionRespuestaEncuesta();
+        pantallaConsultarEncuesta.solicitarOpcionVisualizacionInforme();
     }
 
     // Obtención de los datos de la llamada seleccionada
-    public void buscarDatosLlamadaSeleccionada() {
+    private void buscarDatosLlamadaSeleccionada() {
         this.nombreCliente = this.llamadaSeleccionada.getNombreClienteLlamada();
         this.nombreEstadoActual = this.llamadaSeleccionada.getNombreEstadoActual();
         this.duracionLlamada = this.llamadaSeleccionada.getDuracion();
     }
 
     // Obtención de la descripción de las respuestas seleccionadas por el cliente
-    public void buscarDatosRespuestasDeCliente() {
+    private void buscarDatosRespuestasDeCliente() {
         this.descripcionRespuestasCliente = llamadaSeleccionada.getDescripcionRespuestasDeCliente();
     }
 
-    // método para obtener la encuesta enviada al cliente y la descripción de esa encuesta con sus preguntas
-    public void buscarDatosEncuestaYPreguntas() {
-        for (Encuesta encuesta: encuestas) {
-            if (encuesta.esEncuestaDeCliente(llamadaSeleccionada)) {
-                this.descripcionEncuesta = encuesta.getDescripcionEncuesta();
-                this.descripcionPreguntasEncuesta = encuesta.armarEncuesta();
+    // Método para obtener la encuesta enviada al cliente y la descripción de esa encuesta con sus preguntas
+    private void buscarDatosEncuestaYPreguntas() {
+        for (Encuesta encuesta: encuestas) { // Se iteran las encuestas
+            if (encuesta.esEncuestaDeCliente(llamadaSeleccionada)) { // Se comprueba que una encuesta sea la encuesta de la llamada
+                this.encuestaEnviada = encuesta;
+                // Se obtienen los datos de la encuesta
+                this.descripcionEncuesta = this.encuestaEnviada.getDescripcionEncuesta();
+                this.descripcionPreguntasEncuesta = this.encuestaEnviada.armarEncuesta();
                 break;
             }
         }
@@ -135,15 +139,15 @@ public class GestorConsultarEncuesta {
         this.opcionGeneracionInformeSeleccionada = opcionSeleccionada;
 
         // Se comprueba que la opción seleccionada sea la del CSV
-        if (opcionSeleccionada == "CSV") {
+        if (Objects.equals(this.opcionGeneracionInformeSeleccionada, "CSV")) {
             this.generarArchivoCSV();
-        } else if (opcionSeleccionada == "Imprimir") {
+        } else if (Objects.equals(this.opcionGeneracionInformeSeleccionada, "Imprimir")) {
             System.out.println("Imprimiendo... \nNo apague ni desconecte el equipo");
         }
     }
 
     // Método para generar el archivo CSV
-    public void generarArchivoCSV() {
+    private void generarArchivoCSV() {
         interfazCSV.crearArchivoCSV(this.nombreCliente, String.valueOf(this.duracionLlamada), this.nombreEstadoActual, // Se llama al método definido en la Interfaz CSV
                                     this.descripcionPreguntasEncuesta, this.descripcionRespuestasCliente);
     }

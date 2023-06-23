@@ -7,7 +7,7 @@ public class Main {
         // Creación de la configuración de la BD
         ConfiguracionBBDD configuracionBBDD = new ConfiguracionBBDD();
 
-        // Creación de la pantalla
+        // Creación de la pantalla y paso de la sesión al gestor
         PantallaConsultarEncuesta pantallaConsultarEncuesta = new PantallaConsultarEncuesta(configuracionBBDD.configurarBBDD());
         pantallaConsultarEncuesta.opcionConsultarEncuesta();
     }

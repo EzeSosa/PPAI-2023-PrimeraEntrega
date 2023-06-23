@@ -10,15 +10,13 @@ public class Cliente {
     private int dni, nroCelular;
     private String nombreCompleto;
 
-    // Constructor con parámetros
-    public Cliente (int dni, int nroCelular, String nombreCompleto) {
-        this.dni = dni;
-        this.nroCelular = nroCelular;
-        this.nombreCompleto = nombreCompleto;
-    }
-
     // Constructor sin parámetros
     public Cliente() {
+    }
+
+    // Método para verificar si se trata del cliente (comparación de punteros)
+    public boolean esCliente(Cliente cliente) {
+        return this == cliente;
     }
 
     // Getter del nombre del cliente

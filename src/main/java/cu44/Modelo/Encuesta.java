@@ -33,7 +33,7 @@ public class Encuesta {
 
     // Comprobación de si la encuesta enviada corresponde a la llamada
     public boolean esEncuestaDeCliente(Llamada llamadaSeleccionada) {
-        for (Pregunta preg : pregunta) { // Se consulta a cada pregunta si contiene las respuestas del Cliente
+        for (Pregunta preg : pregunta) { // Se consulta a cada pregunta si contiene una de las respuestas del cliente
             if (preg.esEncuestaDeCliente(llamadaSeleccionada.getRespuestasDeEncuesta())) {
                 return true;
             }

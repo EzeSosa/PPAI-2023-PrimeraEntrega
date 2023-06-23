@@ -9,11 +9,6 @@ public class Estado {
     private Long id;
     private String nombre;
 
-    // Constructor con parámetros
-    public Estado (String nombre){
-        this.nombre = nombre;
-    }
-
     // Constructor sin parámetros
     public Estado() {
     }

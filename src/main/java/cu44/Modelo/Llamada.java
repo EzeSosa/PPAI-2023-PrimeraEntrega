@@ -11,7 +11,7 @@ public class Llamada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String descripcionOperador;
+    private String descripcionOperador, detalleAccionRequerida;
     private int duracion;
     private boolean encuestaEnviada;
 
@@ -25,37 +25,25 @@ public class Llamada {
     @OneToMany
     private List<RespuestaDeCliente> respuestasDeEncuesta;
 
-    // Constructor con parámetros (CU #1)
-    public Llamada (Cliente cliente, Estado estadoActual, LocalDateTime fechaHoraInicio){
-        this.estadoActual = estadoActual;
-        this.cliente = cliente;
-        crearCambioEstado(estadoActual, fechaHoraInicio);
-    }
-
     // Constructor sin parámetros
     public Llamada() {
     }
 
-    // Creación de los cambios de estado de la llamada
-    private void crearCambioEstado(Estado estado, LocalDateTime fechaHoraInicio){
-        CambioEstado nuevo = new CambioEstado(fechaHoraInicio, estado);
-        this.cambioEstado.add(nuevo);
-    }
-
-    // Setter del Estado actual de la llamada
-    public void setEstado(Estado estadoActual){
-        this.estadoActual = estadoActual;
-    }
-
     // Comprobación de la Llamada en el periodo ingresado
     public boolean esDePeriodo(LocalDateTime fechaDesde, LocalDateTime fechaHasta){
-        for (CambioEstado cambio: cambioEstado){
-            if (cambio.esEstadoInicial()){ // Se comprueba la fecha donde la llamada es Iniciada
-                LocalDateTime fechaCambio = cambio.getFechaHoraInicio();
-                return (fechaCambio.isAfter(fechaDesde) && fechaCambio.isBefore(fechaHasta));
+        LocalDateTime fechaCambio = this.obtenerEstadoInicial().getFechaHoraInicio(); // Se obtiene la fecha del cambio de estado inicial
+        return (fechaCambio.isAfter(fechaDesde) && fechaCambio.isBefore(fechaHasta));
+    }
+
+    // Método para obtener el estado inicial de la llamada
+    private CambioEstado obtenerEstadoInicial() {
+        for (CambioEstado cambio: cambioEstado) {
+            // Se comprueba si es el estado inicial
+            if (cambio.esEstadoInicial()) {
+                return cambio;
             }
         }
-        return false;
+        return cambioEstado.get(0);
     }
 
     // Comprobación de si la Llamada tiene encuesta respondida
@@ -100,5 +88,25 @@ public class Llamada {
     // Getter de la descripción del operador
     public String getDescripcionOperador() {
         return descripcionOperador;
+    }
+
+    // Setter del estado actual de la llamada
+    public void setEstadoActual(Estado estadoActual){
+        this.estadoActual = estadoActual;
+    }
+
+    // Setter de la descripción del operador
+    public void setDescripcionOperador(String descripcionOperador) {
+        this.descripcionOperador = descripcionOperador;
+    }
+
+    // Setter de la duración de la llamada
+    public void setDuracion(int duracion) {
+        this.duracion = duracion;
+    }
+
+    // Cálculo de la duración [YA REGISTRADA EN LA BASE DE DATOS]
+    public int calcularDuracion() {
+        return 0;
     }
 }

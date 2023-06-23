@@ -52,14 +52,14 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         // Configuración de la Tabla de Llamadas
         jScrollLlamadas.setPreferredSize(new Dimension(400, 170));
         DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
-        dtm.addColumn("ID Llamada");
+        dtm.addColumn("Número de Llamada");
         dtm.addColumn("Descripción del Operador");
 
         // Configuración de la Tabla de Preguntas y Respuestas
         jScrollPreguntas.setPreferredSize(new Dimension(400, 75));
         DefaultTableModel dtm2 = (DefaultTableModel) tablaPreguntasRespuestas.getModel();
-        dtm2.addColumn("Pregunta");
-        dtm2.addColumn("Respuesta de Cliente");
+        dtm2.addColumn("Pregunta de la Encuesta");
+        dtm2.addColumn("Respuesta del Cliente");
         tablaPreguntasRespuestas.getColumnModel().getColumn(0).setPreferredWidth(300);
 
         // ActionListener del JXDatePicker de la fecha desde
@@ -111,12 +111,13 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
     }
 
     // Habilitación de la pantalla (creación del JFrame con los elementos)
-    public void habilitarVentana() {
+    private void habilitarVentana() {
         JFrame frame = new JFrame("Consultar Encuesta - PPAI Grupo 1");
         frame.setContentPane(JPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     // Solicitud del periodo de la consulta. Se hacen visibles los JXDatePicker (componentes de selección de fecha)
@@ -127,11 +128,13 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
 
     // Método para tomar la selección de la fecha desde
     public void tomarSeleccionFechaInicio() {
+        this.limpiarDatos();
         gestorConsultarEncuesta.tomarPeriodoSeleccionado(dateFechaDesde.getDate(), dateFechaHasta.getDate());
     }
 
     // Método para tomar la selección de la fecha hasta
     public void tomarSeleccionFechaFin() {
+        this.limpiarDatos();
         gestorConsultarEncuesta.tomarPeriodoSeleccionado(dateFechaDesde.getDate(), dateFechaHasta.getDate());
     }
 
@@ -141,6 +144,7 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
         DefaultTableModel dtm = (DefaultTableModel) tablaLlamadas.getModel();
         dtm.setRowCount(0);
 
+        // Se agrega una fila en la tabla por cada llamada
         for (Llamada llamada : llamadasConEncuestaEnPeriodo) {
             dtm.addRow(new Object[]{llamada.getId(), llamada.getDescripcionOperador()});
         }
@@ -148,7 +152,7 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
 
     // Método para tomar la selección de la llamada
     public void tomarSeleccionLlamada() {
-        gestorConsultarEncuesta.tomarLlamadaSeleccionada(llamadasConEncuestaEnPeriodo.get(tablaLlamadas.getSelectedRow()));
+        gestorConsultarEncuesta.tomarLlamadaSeleccionada(llamadasConEncuestaEnPeriodo.get(tablaLlamadas.getSelectedRow())); // Se pasa la llamada de la columna seleccionada al gestor
     }
 
     // Método para mostrar los datos obtenidos de la llamada, la encuesta y sus preguntas con sus respuestas
@@ -168,7 +172,7 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
     }
 
     // Método para seleccionar la opción de visualización de la consulta
-    public void solicitarOpcionRespuestaEncuesta() {
+    public void solicitarOpcionVisualizacionInforme() {
         this.btnGenerarCSV.setEnabled(true);
         this.btnImprimir.setEnabled(true);
     }
@@ -181,13 +185,13 @@ public class PantallaConsultarEncuesta extends JFrame implements ActionListener 
     // Método para informar que el periodo ingresado es inválido
     public void informarPeriodoInvalido() {
         this.limpiarDatos();
-        JOptionPane.showMessageDialog(null, "El periodo ingresado es invalido", "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "El periodo ingresado es invalido", "Error", JOptionPane.ERROR_MESSAGE); // Se muestra un mensaje de error
     }
 
     // Método para informar que no hay llamadas en el periodo ingresado
     public void informarNoHayLlamadas() {
         this.limpiarDatos();
-        JOptionPane.showMessageDialog(null, "No existen llamadas con encuesta respondida en el periodo", "Advertencia", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "No existen llamadas con encuesta respondida en el periodo", "Advertencia", JOptionPane.WARNING_MESSAGE); // Se muestra un mensaje de advertencia
     }
 
     // Método para limpiar los datos de la pantalla

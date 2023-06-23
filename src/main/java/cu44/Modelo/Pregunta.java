@@ -1,5 +1,4 @@
 package cu44.Modelo;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,12 +14,6 @@ public class Pregunta {
     @OneToMany
     private List<RespuestaPosible> respuesta;
 
-    // Constructor con parámetros
-    public Pregunta (String pregunta, List<RespuestaPosible> respuesta){
-        this.pregunta = pregunta;
-        this.respuesta = respuesta;
-    }
-
     // Constructor sin parámetros
     public Pregunta() {
     }
@@ -32,7 +25,8 @@ public class Pregunta {
 
     // Comprobación de si la encuesta enviada corresponde a la llamada
     public boolean esEncuestaDeCliente (List<RespuestaDeCliente> respuestasCliente) {
-        return this.tieneRtaPosible(respuestasCliente.get(0).getRespuestaPosible()); // Se comprueba si la pregunta tiene la respuesta posible
+        // Se comprueba si la pregunta tiene la respuesta posible. No existen dos preguntas con la misma respuesta, por lo que validando una única respuesta (la del índice 0) es suficiente.
+        return this.tieneRtaPosible(respuestasCliente.get(0).getRespuestaPosible());
     }
 
     // Comprobación de si la pregunta tiene la respuesta posible
