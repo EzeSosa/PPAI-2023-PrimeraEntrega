@@ -31,19 +31,19 @@ public class Llamada {
 
     // Comprobación de la Llamada en el periodo ingresado
     public boolean esDePeriodo(LocalDateTime fechaDesde, LocalDateTime fechaHasta){
-        LocalDateTime fechaCambio = this.obtenerEstadoInicial().getFechaHoraInicio(); // Se obtiene la fecha del cambio de estado inicial
+        LocalDateTime fechaCambio = this.obtenerFechaEstadoInicial(); // Se obtiene la fecha del cambio de estado inicial
         return (fechaCambio.isAfter(fechaDesde) && fechaCambio.isBefore(fechaHasta));
     }
 
     // Método para obtener el estado inicial de la llamada
-    private CambioEstado obtenerEstadoInicial() {
+    private LocalDateTime obtenerFechaEstadoInicial() {
         for (CambioEstado cambio: cambioEstado) {
             // Se comprueba si es el estado inicial
             if (cambio.esEstadoInicial()) {
-                return cambio;
+                return cambio.getFechaHoraInicio();
             }
         }
-        return cambioEstado.get(0);
+        return cambioEstado.get(0).getFechaHoraInicio();
     }
 
     // Comprobación de si la Llamada tiene encuesta respondida

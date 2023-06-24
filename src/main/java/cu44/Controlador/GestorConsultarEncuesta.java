@@ -100,9 +100,9 @@ public class GestorConsultarEncuesta {
     // Método para obtener la llamada seleccionada
     public void tomarLlamadaSeleccionada (Llamada llamadaSeleccionada) {
         this.llamadaSeleccionada = llamadaSeleccionada;
-        this.buscarDatosLlamadaSeleccionada();
-        this.buscarDatosRespuestasDeCliente();
-        this.buscarDatosEncuestaYPreguntas();
+        this.buscarDatosLlamadaSeleccionada(); // Se buscan los datos de la llamada seleccionada
+        this.buscarDatosRespuestasDeCliente(); // Se buscan los datos de las respuestas del cliente
+        this.buscarDatosEncuestaYPreguntas(); // Se buscan las preguntas y la encuesta de la llamada
         pantallaConsultarEncuesta.mostrarDatosLlamadaYEncuesta(this.nombreCliente, this.nombreEstadoActual, this.duracionLlamada,
                                                                this.descripcionEncuesta, this.descripcionRespuestasCliente,
                                                                this.descripcionPreguntasEncuesta);
