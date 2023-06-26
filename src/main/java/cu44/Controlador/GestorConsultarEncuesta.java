@@ -145,6 +145,7 @@ public class GestorConsultarEncuesta {
             System.out.println("Imprimiendo... \nNo apague ni desconecte el equipo");
         }
 
+        // Se finaliza el CU
         this.finCU();
     }
 
