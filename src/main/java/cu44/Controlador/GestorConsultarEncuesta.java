@@ -126,12 +126,12 @@ public class GestorConsultarEncuesta {
         for (Encuesta encuesta: encuestas) { // Se iteran las encuestas
             if (encuesta.esEncuestaDeCliente(llamadaSeleccionada)) { // Se comprueba que una encuesta sea la encuesta de la llamada
                 this.encuestaEnviada = encuesta;
-                // Se obtienen los datos de la encuesta
-                this.descripcionEncuesta = this.encuestaEnviada.getDescripcionEncuesta();
-                this.descripcionPreguntasEncuesta = this.encuestaEnviada.armarEncuesta();
                 break;
             }
         }
+        // Se obtienen los datos de la encuesta
+        this.descripcionEncuesta = this.encuestaEnviada.getDescripcionEncuesta();
+        this.descripcionPreguntasEncuesta = this.encuestaEnviada.armarEncuesta();
     }
 
     // Método para tomar la selección de opción del informe
