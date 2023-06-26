@@ -144,6 +144,8 @@ public class GestorConsultarEncuesta {
         } else if (Objects.equals(this.opcionGeneracionInformeSeleccionada, "Imprimir")) {
             System.out.println("Imprimiendo... \nNo apague ni desconecte el equipo");
         }
+
+        this.finCU();
     }
 
     // Método para generar el archivo CSV
@@ -154,6 +156,6 @@ public class GestorConsultarEncuesta {
 
     // Método para finalizar el CU
     public void finCU() {
-        System.exit(0);
+        System.out.println("Fin del CU.");
     }
 }

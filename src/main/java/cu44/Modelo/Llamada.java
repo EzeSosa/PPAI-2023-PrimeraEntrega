@@ -11,7 +11,7 @@ public class Llamada {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String descripcionOperador, detalleAccionRequerida;
+    private String descripcionOperador, detalleAccionRequerida, observacionAuditor;
     private int duracion;
     private boolean encuestaEnviada;
 
@@ -37,13 +37,14 @@ public class Llamada {
 
     // Método para obtener el estado inicial de la llamada
     private LocalDateTime obtenerFechaEstadoInicial() {
+        LocalDateTime fechaEstadoInicial = null;
         for (CambioEstado cambio: cambioEstado) {
             // Se comprueba si es el estado inicial
             if (cambio.esEstadoInicial()) {
-                return cambio.getFechaHoraInicio();
+                fechaEstadoInicial = cambio.getFechaHoraInicio();
             }
         }
-        return cambioEstado.get(0).getFechaHoraInicio();
+        return fechaEstadoInicial;
     }
 
     // Comprobación de si la Llamada tiene encuesta respondida
